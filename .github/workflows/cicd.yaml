@@ -39,11 +39,14 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    # ✅ Clean cache to avoid stale objects from Go 1.21
+    - name: Set up Go 1.22
+      uses: actions/setup-go@v5
+      with:
+        go-version: 1.22.5   # ✅ make sure lint uses the same Go version
+
     - name: Clean Go cache
       run: |
         go clean -cache -modcache -testcache -x
-
 
     - name: Run golangci-lint
       uses: golangci/golangci-lint-action@v6
@@ -98,5 +101,3 @@ jobs:
         git add helm/go-web-app-chart/values.yaml
         git commit -m "Update tag in Helm chart"
         git push
-
-
